@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface IProduct {
+  id?: string;
   name: string;
   description: string;
   status: string;

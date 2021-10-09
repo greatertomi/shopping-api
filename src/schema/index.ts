@@ -1,30 +1,17 @@
-import {
-  GraphQLID,
-  GraphQLList,
-  GraphQLObjectType,
-  GraphQLSchema,
-} from 'graphql';
-import ProductType from './ProductType';
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
-import { addProduct } from '../mutations/productMutations';
-import { Product } from '../models/Product';
+import {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+} from '../mutations/productMutations';
+import { getProduct, getProducts } from '../queries/productQueries';
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    product: {
-      type: ProductType,
-      args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Product.findById(args.id);
-      },
-    },
-    products: {
-      type: new GraphQLList(ProductType),
-      resolve(parent, args) {
-        return Product.find();
-      },
-    },
+    product: getProduct(),
+    products: getProducts(),
   },
 });
 
@@ -32,6 +19,8 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     addProduct: addProduct(),
+    updateProduct: updateProduct(),
+    deleteProduct: deleteProduct(),
   },
 });
 
