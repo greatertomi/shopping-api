@@ -3,6 +3,10 @@ import { graphqlHTTP } from "express-graphql";
 import cors from "cors";
 import schema from "./schema";
 
+import connectDB from "./config/mongodb";
+// import Product from "./models/Product";
+
+connectDB();
 const app = express();
 const PORT = 5000;
 app.use(cors());

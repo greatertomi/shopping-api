@@ -1,55 +1,59 @@
 import {
   GraphQLID,
   GraphQLInt,
-  GraphQLList, GraphQLNonNull,
+  GraphQLList,
+  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
-  GraphQLString
-} from 'graphql';
-import { PRODUCTS } from '../mocks/products';
+  GraphQLString,
+} from "graphql";
+import { PRODUCTS } from "../mocks/products";
+import ProductType from "./ProductType";
+import mongoose from "mongoose";
 
-const ProductType = new GraphQLObjectType({
-  name: 'Product',
-  fields: () => ({
-    id: { type: GraphQLID },
-    name: { type: GraphQLString },
-    description: {type: GraphQLString},
-    status: { type: GraphQLString },
-    price: { type: GraphQLInt }
-  })
-});
+const Product = mongoose.model("product");
 
 const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
+  name: "RootQueryType",
   fields: {
     products: {
       type: new GraphQLList(ProductType),
       resolve(parent, args) {
         return PRODUCTS;
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 const Mutation = new GraphQLObjectType({
-  name: 'Mutation',
+  name: "Mutation",
   fields: {
     addProduct: {
       type: ProductType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
-        description: {type: new GraphQLNonNull(GraphQLString)},
-        status: {type: GraphQLString, defaultValue: 'DRAFT'},
-        price: {type: new GraphQLNonNull(GraphQLInt)}
+        description: { type: new GraphQLNonNull(GraphQLString) },
+        status: { type: GraphQLString, defaultValue: "DRAFT" },
+        price: { type: new GraphQLNonNull(GraphQLInt) },
+        currentQuantity: { type: GraphQLInt, defaultValue: 1 },
       },
       resolve(parent, args) {
-        console.log(parent, args)
-      }
-    }
-  }
-})
+        console.log(parent, args);
+        const { name, description, status, price, currentQuantity } = args;
+        const product = new Product({
+          nam: name,
+          desiption: description,
+          status,
+          price,
+          currentQuantity,
+        });
+        return product.save();
+      },
+    },
+  },
+});
 
 export default new GraphQLSchema({
   query: RootQuery,
-  mutation: Mutation
+  mutation: Mutation,
 });
