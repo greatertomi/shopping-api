@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 interface IProduct {
   name: string;
   description: string;
   status: string;
   price: string;
-  currentQuantity: string;
-  createdDate: string;
+  currentQuantity?: string;
+  createdDate?: string;
 }
 
-interface productModelInterface extends mongoose.Model<any> {
+interface ProductModelInterface extends mongoose.Model<any> {
   build(attr: IProduct): any;
 }
 
@@ -45,8 +45,9 @@ productSchema.statics.build = (attr: IProduct) => {
   return new Product(attr);
 };
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model<any, ProductModelInterface>(
+  'product',
+  productSchema
+);
 
-// Product.build({nam: ''})
-
-export default { Product };
+export { Product };
