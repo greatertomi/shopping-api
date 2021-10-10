@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export interface IProduct {
   id?: string;
@@ -7,6 +7,7 @@ export interface IProduct {
   status: string;
   price: string;
   currentQuantity?: string;
+  createdBy: string;
   createdDate?: string;
 }
 
@@ -14,7 +15,7 @@ interface ProductModelInterface extends mongoose.Model<any> {
   build(attr: IProduct): any;
 }
 
-const productSchema = new mongoose.Schema({
+const productSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -37,6 +38,7 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: 1,
   },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'user' },
   createdDate: {
     type: Date,
     default: Date.now,
