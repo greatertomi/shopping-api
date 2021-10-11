@@ -6,7 +6,7 @@ import {
   updateProduct,
 } from '../mutations/productMutations';
 import { getProduct, getProducts } from '../queries/productQueries';
-import { createUser } from '../mutations/userMutations';
+import { createUser, loginUser } from '../mutations/userMutations';
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -23,6 +23,7 @@ const Mutation = new GraphQLObjectType({
     updateProduct: updateProduct(),
     deleteProduct: deleteProduct(),
     createUser: createUser(),
+    loginUser: loginUser(),
   },
 });
 

@@ -28,3 +28,18 @@ export const createUser = (): any => {
     },
   };
 };
+
+export const loginUser = (): any => {
+  return {
+    type: UserType,
+    args: {
+      email: { type: new GraphQLNonNull(GraphQLString) },
+      // password: {type: new GraphQLNonNull(GraphQLString)},
+      success: { type: new GraphQLNonNull(GraphQLString) },
+    },
+    resolve(parent: any, args: any) {
+      // send error
+      throw new Error('Name for character with ID 1002 could not be fetched.');
+    },
+  };
+};
