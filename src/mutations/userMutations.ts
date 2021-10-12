@@ -1,7 +1,12 @@
-import UserType from '../schema/UserType';
+import UserType, {
+  LoginFailedType,
+  LoginPassedType,
+  LoginType,
+} from '../schema/UserType';
 import { GraphQLBoolean, GraphQLNonNull, GraphQLString } from 'graphql';
 import bcrypt from 'bcrypt';
 import { IUser, User } from '../models/User';
+import jwt from 'jsonwebtoken';
 
 export const createUser = (): any => {
   return {
@@ -31,15 +36,29 @@ export const createUser = (): any => {
 
 export const loginUser = (): any => {
   return {
-    type: UserType,
+    type: LoginType,
     args: {
       email: { type: new GraphQLNonNull(GraphQLString) },
-      // password: {type: new GraphQLNonNull(GraphQLString)},
-      success: { type: new GraphQLNonNull(GraphQLString) },
+      password: { type: new GraphQLNonNull(GraphQLString) },
     },
-    resolve(parent: any, args: any) {
-      // send error
-      throw new Error('Name for character with ID 1002 could not be fetched.');
+    async resolve(parent: any, args: any) {
+      const { email, password } = args;
+
+      const user = await User.findOne({ email });
+      if (!user) {
+        return { success: false, message: 'User does not exist', code: 404 };
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return { success: false, message: 'Wrong Password', code: 401 };
+      }
+      const payload = { id: user.id, userType: user.userType };
+      // @ts-ignore
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
+        expiresIn: '10h',
+      });
+      return { success: true, message: 'Login successful', token, user };
     },
   };
 };
