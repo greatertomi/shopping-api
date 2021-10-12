@@ -1,12 +1,9 @@
-import UserType, {
-  LoginFailedType,
-  LoginPassedType,
-  LoginType,
-} from '../schema/UserType';
+import UserType, { LoginType } from '../schema/UserType';
 import { GraphQLBoolean, GraphQLNonNull, GraphQLString } from 'graphql';
 import bcrypt from 'bcrypt';
 import { IUser, User } from '../models/User';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 export const createUser = (): any => {
   return {

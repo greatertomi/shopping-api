@@ -1,6 +1,7 @@
 import ProductType from '../schema/ProductType';
 import { GraphQLID, GraphQLList } from 'graphql';
 import { IProduct, Product } from '../models/Product';
+import { LoginPassedType } from '../schema/UserType';
 
 export const getProduct = (): any => {
   return {
@@ -17,6 +18,23 @@ export const getProducts = (): any => {
     type: new GraphQLList(ProductType),
     resolve(parent: any, args: IProduct) {
       return Product.find();
+    },
+  };
+};
+
+export const getPrivateData = (): any => {
+  return {
+    type: LoginPassedType,
+    resolve(parent: any, args: any, context: any) {
+      console.log('CONTEXT', context);
+      return {
+        message: 'private data acquired',
+        token: '12758',
+        user: {
+          id: '1234',
+          name: 'paulino',
+        },
+      };
     },
   };
 };
