@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
 
+enum userTypes {
+  ADMIN,
+  USER,
+}
+
 export interface IUser {
   id?: string;
   name: string;
   email: string;
   password: string;
-  userType: string;
+  userType: userTypes;
   createdDate?: string;
   active?: boolean;
 }

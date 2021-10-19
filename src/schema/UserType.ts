@@ -6,16 +6,29 @@ import {
   GraphQLInt,
   GraphQLUnionType,
   GraphQLNonNull,
+  GraphQLEnumType,
 } from 'graphql';
+
+const UserRoleEnumType = new GraphQLEnumType({
+  name: 'userRoleEnum',
+  values: {
+    ADMIN: {
+      value: 0,
+    },
+    USER: {
+      value: 1,
+    },
+  },
+});
 
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     id: { type: new GraphQLNonNull(GraphQLID) },
-    name: { type: GraphQLString },
+    name: { type: new GraphQLNonNull(GraphQLString) },
     email: { type: new GraphQLNonNull(GraphQLString) },
-    password: { type: GraphQLString },
-    userType: { type: GraphQLString },
+    password: { type: new GraphQLNonNull(GraphQLString) },
+    userType: { type: new GraphQLNonNull(UserRoleEnumType) },
     createdDate: { type: GraphQLString },
     active: { type: GraphQLBoolean },
   }),

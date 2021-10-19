@@ -25,6 +25,7 @@
   "dependencies": {
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
+    "@types/validator": "^13.6.3",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -33,6 +34,7 @@
     "express-unless": "^1.0.0",
     "graphql": "^15.6.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.8"
+    "mongoose": "^6.0.8",
+    "validator": "^13.6.0"
   }
 }
