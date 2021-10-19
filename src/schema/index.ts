@@ -11,6 +11,7 @@ import {
   getProducts,
 } from '../queries/productQueries';
 import { createUser, loginUser } from '../mutations/userMutations';
+import { getUser, getUsers } from '../queries/userQueries';
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -18,6 +19,8 @@ const RootQuery = new GraphQLObjectType({
     product: getProduct(),
     products: getProducts(),
     privateData: getPrivateData(),
+    users: getUsers(),
+    user: getUser(),
   },
 });
 

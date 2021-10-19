@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
+    enum: ['ADMIN', 'USER'],
     required: true,
   },
   createdDate: {

@@ -1,6 +1,7 @@
 import {
   GraphQLID,
   GraphQLInt,
+  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql';
@@ -11,7 +12,7 @@ const ProductType = new GraphQLObjectType({
   name: 'Product',
   fields: () => ({
     id: { type: GraphQLID },
-    name: { type: GraphQLString },
+    name: { type: new GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
     status: { type: GraphQLString },
     price: { type: GraphQLInt },
