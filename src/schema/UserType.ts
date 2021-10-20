@@ -8,16 +8,16 @@ import {
   GraphQLNonNull,
   GraphQLEnumType,
 } from 'graphql';
-import GraphQLDateTime from './customScalars/GraphQLDateTime';
+import GraphQLTimestamp from './customScalars/GraphQLTimestamp';
 
 const UserRoleEnumType = new GraphQLEnumType({
   name: 'userRoleEnum',
   values: {
     ADMIN: {
-      value: 0,
+      value: 'ADMIN',
     },
     USER: {
-      value: 1,
+      value: 'USER',
     },
   },
 });
@@ -30,7 +30,7 @@ const UserType = new GraphQLObjectType({
     email: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
     userType: { type: new GraphQLNonNull(UserRoleEnumType) },
-    createdDate: { type: GraphQLDateTime },
+    createdDate: { type: GraphQLTimestamp },
     active: { type: GraphQLBoolean },
   }),
 });
